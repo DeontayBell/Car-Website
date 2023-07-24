@@ -3,7 +3,7 @@
 Team:
 
 * Person 1 - Which microservice?
-* Person 2 - Which microservice?
+* Deontay Bell - Sales
 
 ## Design
 
@@ -14,5 +14,4 @@ microservice, here.
 
 ## Sales microservice
 
-Explain your models and integration with the inventory
-microservice, here.
+This microservice requires the implementation of three models, each with specific names and fields. It is essential to maintain the exact casing provided below to ensure proper functionality and successful test execution. Additional fields can be added to the models if required.
