@@ -5,6 +5,8 @@ from .views import (
     show_technician,
     list_appointments,
     show_appointment,
+    cancel_appointment,
+    finish_appointment,
 )
 
 
@@ -28,5 +30,15 @@ urlpatterns = [
         "appointments/<int:pk>/",
         show_appointment,
         name="show_appointment",
+    ),
+    path(
+        "appointments/<int:pk>/cancel",
+        cancel_appointment,
+        name="cancel_appointment",
+    ),
+    path(
+        "appointments/<int:pk>/finish",
+        finish_appointment,
+        name="finish_appointment",
     ),
 ]

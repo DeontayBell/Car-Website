@@ -132,7 +132,7 @@ def show_appointment(request, pk):
             )
         except Appointment.DoesNotExist:
             return JsonResponse({"message": "Does not exist"})
-    else: # PUT
+    else:
         try:
             content = json.loads(request.body)
             appointment = Appointment.objects.get(id=pk)
@@ -151,3 +151,37 @@ def show_appointment(request, pk):
             response = JsonResponse({"message": "Does not exist"})
             response.status_code = 404
             return response
+
+
+@require_http_methods(["PUT"])
+def cancel_appointment(request, pk):
+    try:
+        appointment = Appointment.objects.get(id=pk)
+        appointment.status = "Cancelled"
+        appointment.save()
+        return JsonResponse(
+            appointment,
+            encoder=AppointmentEncoder,
+            safe=False,
+        )
+    except Appointment.DoesNotExist:
+        response = JsonResponse({"message": "Does not exist"})
+        response.status_code = 404
+        return response
+
+
+@require_http_methods(["PUT"])
+def finish_appointment(request, pk):
+    try:
+        appointment = Appointment.objects.get(id=pk)
+        appointment.status = "Finished"
+        appointment.save()
+        return JsonResponse(
+            appointment,
+            encoder=AppointmentEncoder,
+            safe=False,
+        )
+    except Appointment.DoesNotExist:
+        response = JsonResponse({"message": "Does not exist"})
+        response.status_code = 404
+        return response

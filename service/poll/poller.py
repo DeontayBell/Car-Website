@@ -28,7 +28,7 @@ def poll(repeat=True):
     while True:
         print('Service poller polling for data')
         try:
-           get_automobiles()
+            get_automobiles()
         except Exception as e:
             print(e, file=sys.stderr)
 

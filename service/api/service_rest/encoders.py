@@ -23,3 +23,6 @@ class AppointmentEncoder(ModelEncoder):
         "customer",
         "technician",
     ]
+
+    def get_extra_data(self, o):
+        return {"technician": o.technician.first_name}
