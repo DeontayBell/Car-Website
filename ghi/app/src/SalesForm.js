@@ -116,7 +116,7 @@ function SalesForm() {
                 <div className="mb-3">
                   <select value={vin} onChange={handleVinChange}  required name="Vin"  id="vin" className="form-control" >
                   <option value="vin">Choose a Vin</option>
-                  {vins.filter(vin map(vin => {
+                  {vins.filter(vin => vin.sold === false).map(vin => {
                     return (
                         <option key={vin.vin} value={vin.vin}> {vin.vin}</option>
                     )
