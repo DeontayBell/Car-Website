@@ -93,12 +93,16 @@ def list_appointments(request):
     else:
         try:
             content = json.loads(request.body)
+            technician = Technician.objects.get(id=content["technician"])
+            content["technician"] = technician
             appointment = Appointment.objects.create(**content)
             return JsonResponse(
                 appointment,
                 encoder=AppointmentEncoder,
                 safe=False,
             )
+        except Technician.DoesNotExist:
+            return JsonResponse({"message": "Technician does not exist"}, status=400)
         except:
             response = JsonResponse(
                 {"message": "Could not create the appointment"}
