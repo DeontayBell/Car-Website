@@ -77,20 +77,25 @@ export const AppointmentsList = () => {
             <div className="offset-3 col-6">
                 <div className="shadow p-4 mt-4">
                     <h1>Service Appointments</h1>
-                    {appointments.map((appointment) => (
-                        <div key={appointment.id}>
-                            <p>VIN: {appointment.vin}</p>
-                            <p>Customer: {appointment.customer}</p>
-                            <p>Date and Time: {appointment.date_time}</p>
-                            <p>Technician: {appointment.technician.first_name}</p>
-                            <p>Reason: {appointment.reason}</p>
-                            <p>VIP: {automobiles.some(auto => auto.vin === appointment.vin) ? "Yes" : "No"}</p>
-                            <button onClick={() => handleCancel(appointment.id)}>Cancel</button>
-                            <button onClick={() => handleFinish(appointment.id)}>Finish</button>
-                        </div>
-                    ))}
+                    {appointments.map((appointment) => {
+                        let vipAutomobiles = automobiles.filter(auto => auto.vin === appointment.vin);
+                        let isVip = vipAutomobiles.length > 0 ? "Yes" : "No";
+
+                        return (
+                            <div key={appointment.id}>
+                                <p>VIN: {appointment.vin}</p>
+                                <p>Customer: {appointment.customer}</p>
+                                <p>Date and Time: {appointment.date_time}</p>
+                                <p>Technician: {appointment.technician.first_name}</p>
+                                <p>Reason: {appointment.reason}</p>
+                                <p>VIP: {isVip}</p>
+                                <button onClick={() => handleCancel(appointment.id)}>Cancel</button>
+                                <button onClick={() => handleFinish(appointment.id)}>Finish</button>
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </div>
-    );
+    )
 };
