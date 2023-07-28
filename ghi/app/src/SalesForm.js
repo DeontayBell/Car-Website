@@ -15,8 +15,8 @@ function SalesForm() {
 
     const [salespeople, setSalespeople] = useState([])
     const fetchSalespeople = async () => {
-        const url = "http://localhost:8090/api/salespeople/";
-        const response = await fetch(url);
+        const saleurl = "http://localhost:8090/api/salespeople/";
+        const response = await fetch(saleurl);
         if (response.ok) {
             const data = await response.json();
             setSalespeople(data.salespeople)
@@ -25,8 +25,8 @@ function SalesForm() {
 
     const [customers, setCustomers] = useState([])
     const fetchCustomers = async () => {
-        const url = "http://localhost:8090/api/customers/";
-        const response = await fetch(url);
+        const customerurl = "http://localhost:8090/api/customers/";
+        const response = await fetch(customerurl);
         if (response.ok) {
             const data = await response.json();
             setCustomers(data.customers)
@@ -73,7 +73,7 @@ function SalesForm() {
         data.price = price;
         console.log(data);
 
-        const Url = "http://localhost:8090/api/sales/"
+        const Urls = "http://localhost:8090/api/sales/"
         const fetchConfig = {
             method: "POST",
             body: JSON.stringify(data),
@@ -81,14 +81,28 @@ function SalesForm() {
                 'Content-Type': 'application/json',
         }
       }
-      const response = await fetch(Url, fetchConfig);
+
+        const soldAuto = async () => {
+            const sold = {
+                method: "PUT",
+                body: JSON.stringify({"sold": true}),
+            };
+            const response = await fetch(`http://localhost:8100/api/automobiles/${vin}/`, sold);
+            if (response.ok) {
+                const data = await response.json();
+            }
+        }
+
+
+      const response = await fetch(Urls, fetchConfig);
       if (response.ok) {
         const newSale = await response.json();
         console.log(newSale)
+        await soldAuto()
         setVin('');
         setSalesperson('');
         setCustomer('');
-        setPrice('')
+        setPrice('');
       }
     }
 
@@ -102,9 +116,9 @@ function SalesForm() {
                 <div className="mb-3">
                   <select value={vin} onChange={handleVinChange}  required name="Vin"  id="vin" className="form-control" >
                   <option value="vin">Choose a Vin</option>
-                  {vins.map(vin => {
+                  {vins.filter(vin map(vin => {
                     return (
-                        <option key={vin.id} value={vin.id}> {vin.vin}</option>
+                        <option key={vin.vin} value={vin.vin}> {vin.vin}</option>
                     )
                   })}
                   </select>
@@ -115,7 +129,7 @@ function SalesForm() {
                   <option value="salesperson">Choose a Salesperson</option>
                   {salespeople.map(sale => {
                     return (
-                        <option key={sale.id} value={sale.id}> {`${sale.first_name} ${sale.last_name}`}</option>
+                        <option key={sale.first_name} value={sale.first_name}> {`${sale.first_name} ${sale.last_name}`}</option>
                     )
                   })}
                   </select>
@@ -126,7 +140,7 @@ function SalesForm() {
                   <option value="">Choose a Customer</option>
                   {customers.map(customer => {
                     return (
-                        <option key={customer.id} value={customer.id}> {`${customer.first_name} ${customer.last_name}`}</option>
+                        <option key={customer.first_name} value={customer.first_name}> {`${customer.first_name} ${customer.last_name}`}</option>
                     )
                   })}
                   </select>
