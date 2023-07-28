@@ -111,7 +111,7 @@ def list_sales(request):
             )
         try:
             customer_name = content["customer"]
-            customer = Customer.objects.get(name=customer_name)
+            customer = Customer.objects.get(first_name=customer_name)
             content["customer"] = customer
         except Customer.DoesNotExist:
             return JsonResponse(
@@ -120,7 +120,7 @@ def list_sales(request):
             )
         try:
             salesperson_name = content["salesperson"]
-            salesperson = Salesperson.objects.get(name=salesperson_name)
+            salesperson = Salesperson.objects.get(first_name=salesperson_name)
             content["salesperson"] = salesperson
         except Salesperson.DoesNotExist:
             return JsonResponse(
@@ -128,6 +128,8 @@ def list_sales(request):
             )
 
         sales = Sale.objects.create(**content)
+        automobile.sold = True
+        automobile.save()
         return JsonResponse(
             {"sales": sales},
             encoder=SaleEncoder,
