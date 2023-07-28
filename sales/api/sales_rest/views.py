@@ -69,7 +69,7 @@ def list_customers(request):
     if request.method == "GET":
         customers = Customer.objects.all()
         return JsonResponse(
-            {"cunstomers": customers},
+            {"customers": customers},
             encoder=CustomerEncoder
         )
     else:
@@ -101,9 +101,9 @@ def list_sales(request):
     else:
         content = json.loads(request.body)
         try:
-            vin = content['automobile']
+            vin = content["automobile"]
             automobile = AutomobileVO.objects.get(vin=vin)
-            content['automobile'] = automobile
+            content["automobile"] = automobile
         except AutomobileVO.DoesNotExist:
             return JsonResponse(
                 {"message": "invalid vin"},
